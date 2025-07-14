@@ -102,7 +102,7 @@ operator const char*();
 StringN& rn();
 
 // очистить
-void clear();
+StringN& clear();
 
 // хэш
 uint32_t hash();

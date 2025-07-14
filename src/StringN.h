@@ -159,9 +159,10 @@ class StringN {
     }
 
     // очистить
-    void clear() {
+    StringN& clear() {
         _buf[0] = 0;
         _len = 0;
+        return *this;
     }
 
     // хэш
