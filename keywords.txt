@@ -1,0 +1,42 @@
+#######################################
+# Syntax Coloring Map For StringN
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+StringN	KEYWORD1
+String8	KEYWORD1
+String16	KEYWORD1
+String24	KEYWORD1
+String32	KEYWORD1
+String64	KEYWORD1
+String128	KEYWORD1
+String256	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+addChar	KEYWORD2
+addPstr	KEYWORD2
+addStr	KEYWORD2
+addUint	KEYWORD2
+addInt	KEYWORD2
+addUint64	KEYWORD2
+addInt64	KEYWORD2
+addFloat	KEYWORD2
+
+add	KEYWORD2
+c_str	KEYWORD2
+rn	KEYWORD2
+clear	KEYWORD2
+hash	KEYWORD2
+length	KEYWORD2
+capacity	KEYWORD2
+isFull	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
