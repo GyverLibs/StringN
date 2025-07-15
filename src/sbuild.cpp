@@ -59,6 +59,11 @@ uint16_t addStr(const char* str, char* buf, int16_t left) {
 
 uint8_t addUint(uint32_t v, uint8_t base, char* buf, int16_t left) {
     if (!left || !(base == 10 || base == 16 || base == 2)) return 0;
+    if (v < 10 && base == 10) {
+        *buf++ = v + '0';
+        *buf = 0;
+        return 1;
+    }
 
     struct fdiv10 {
         uint32_t div(uint32_t num) {
