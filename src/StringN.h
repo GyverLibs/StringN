@@ -25,11 +25,19 @@ class StringN {
     StringN& operator+(T val) {
         return add(val);
     }
+    template <uint16_t N>
+    StringN& operator+(const StringN<N>& other) {
+        return add<N>(other);
+    }
 
     // += val
     template <typename T>
     StringN& operator+=(T val) {
         return add(val);
+    }
+    template <uint16_t N>
+    StringN& operator+=(const StringN<N>& other) {
+        return add<N>(other);
     }
 
     // = val
@@ -37,6 +45,12 @@ class StringN {
     StringN& operator=(T val) {
         clear();
         return add(val);
+    }
+
+    // ============== StringN ==============
+    template <uint16_t N>
+    StringN& add(const StringN<N>& str) {
+        return add(str.c_str(), str.length());
     }
 
     // ============== CHAR ==============
@@ -47,6 +61,12 @@ class StringN {
         }
         return *this;
     }
+    StringN& add(char c, uint16_t amount) {
+        _len += sbuild::addChar(c, amount, _buf + _len, maxlen - _len);
+        return *this;
+    }
+
+    // ============== STRING ==============
     StringN& add(const char* str) {
         _len += sbuild::addStr(str, _buf + _len, maxlen - _len);
         return *this;

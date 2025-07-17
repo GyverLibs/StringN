@@ -31,6 +31,7 @@
 
 ```cpp
 uint16_t sbuild::addChar(char sym, char* buf, int16_t left = -1);
+uint16_t sbuild::addChar(char sym, int16_t amount, char* buf, int16_t left = -1);
 uint16_t sbuild::addPstr(const void* pstr, int16_t len, char* buf, int16_t left = -1);
 uint16_t sbuild::addPstr(const void* pstr, char* buf, int16_t left = -1);
 uint16_t sbuild::addStr(const char* str, int16_t len, char* buf, int16_t left = -1);
@@ -82,17 +83,20 @@ String256;
 ```cpp
 StringN();
 StringN(любой_тип);
-StringN(целый, base);
-StringN(float, dec);
+StringN(целый, основание);
+StringN(float, знаков);
+StringN(строка, длина);
+StringN(символ, количество);
 
 operator+(любой_тип);   // мутирующий!
 operator+=(любой_тип);
 operator=(любой_тип);
 
 StringN& add(любой_тип);
-StringN& add(целый, base);
-StringN& add(float, dec);
+StringN& add(целый, основание);
+StringN& add(float, знаков);
 StringN& add(строка, длина);
+StringN& add(символ, количество);
 
 // вывод, доступ
 const char* c_str();

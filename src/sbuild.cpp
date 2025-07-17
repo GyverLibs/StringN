@@ -26,10 +26,16 @@ uint16_t addChar(char sym, char* buf, int16_t left) {
     return 0;
 }
 
+uint16_t addChar(char sym, int16_t amount, char* buf, int16_t left) {
+    if (left >= 0 && amount > left) amount = left;
+    memset(buf, sym, amount);
+    buf[amount] = 0;
+    return amount;
+}
+
 uint16_t addPstr(const void* pstr, int16_t len, char* buf, int16_t left) {
 #ifdef SB_HAS_PGM
-    if (!left) return 0;
-    if (left > 0 && len > left) len = left;
+    if (left >= 0 && len > left) len = left;
     memcpy_P(buf, pstr, len);
     buf[len] = 0;
     return len;
@@ -47,8 +53,7 @@ uint16_t addPstr(const void* pstr, char* buf, int16_t left) {
 }
 
 uint16_t addStr(const char* str, int16_t len, char* buf, int16_t left) {
-    if (!left) return 0;
-    if (left > 0 && len > left) len = left;
+    if (left >= 0 && len > left) len = left;
     memcpy(buf, str, len);
     buf[len] = 0;
     return len;
@@ -59,6 +64,7 @@ uint16_t addStr(const char* str, char* buf, int16_t left) {
 
 uint8_t addUint(uint32_t v, uint8_t base, char* buf, int16_t left) {
     if (!left || !(base == 10 || base == 16 || base == 2)) return 0;
+
     if (v < 10 && base == 10) {
         *buf++ = v + '0';
         *buf = 0;
