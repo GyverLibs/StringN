@@ -104,7 +104,7 @@ class StringN {
     }
     StringN& add(unsigned long v, uint8_t base = 10) {
 #ifndef STRN_DEFAULT_INT
-        _len += addUint(v, base, _buf + _len, maxlen - _len);
+        _len += sbuild::addUint(v, base, _buf + _len, maxlen - _len);
         return *this;
 #else
         char temp[33];
