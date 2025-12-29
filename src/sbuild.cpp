@@ -180,8 +180,8 @@ uint8_t addFloat(float v, uint8_t dec, char* buf, int16_t left) {
 
     float rounding = 0.5;
     for (uint8_t i = 0; i < dec; ++i) rounding /= 10.0;
-
     v += rounding;
+
     uint8_t res = addUint(v, 10, p, left);
     p += res;
     left -= res;
@@ -191,10 +191,11 @@ uint8_t addFloat(float v, uint8_t dec, char* buf, int16_t left) {
 
         float rem = v - uint32_t(v);
 
-        while (dec--) {
+        while (left && dec--) {
             rem *= 10.0;
-            if (left) *p++ = uint8_t(rem) + '0', --left;
+            *p++ = uint8_t(rem) + '0';
             rem -= uint8_t(rem);
+            --left;
         }
     }
 

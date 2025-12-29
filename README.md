@@ -59,6 +59,20 @@ len += sbuild::addFloat(456.789, 5, str + len, maxlen - len);
 Serial.println(str);    // hello world! 123456.7
 ```
 
+или
+
+```cpp
+uint8_t maxlen = 21;
+char str[maxlen + 1];
+char* p = str;
+p += sbuild::addChar('h', p, maxlen - (p - str));
+p += sbuild::addStr("ello", p, maxlen - (p - str));
+p += sbuild::addPstr(F(" world! "), p, maxlen - (p - str));
+p += sbuild::addInt(123, 10, p, maxlen - (p - str));
+p += sbuild::addFloat(456.789, 5, p, maxlen - (p - str));
+Serial.println(str);
+```
+
 ### StringN
 Класс стринг билдера. Доступен вариант с ручным указанием размера:
 
@@ -138,6 +152,13 @@ Serial.println(StringN<20>("val: ").add(3.1415, 3));
 - Указанное число - максимальное количество читаемых символов (не считая терминатор)
 - Оператор `+` - мутирующий, он изменяет исходную строку
 - При сложении цепочкой первое слагаемое должно быть `StringX`. Если строка нужна вторым слагаемым - создаём её пустой: `foo(String64() + 123 + "hello")`
+
+По умолчанию используется авторская реализация функций конвертации чисел в строку, её можно отключить дефайнами:
+
+```cpp
+#define STRN_DEFAULT_FLOAT  // будет использовать dtostrf: на 1.2к тяжелее, на 20% быстрее
+#define STRN_DEFAULT_INT    // будет использовать ltoa/ultoa: сильно медленнее
+```
 
 <a id="versions"></a>
 
