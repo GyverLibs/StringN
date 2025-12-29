@@ -157,8 +157,6 @@ uint8_t addUint64(uint64_t v, uint8_t base, char* buf, int16_t left) {
 }
 
 uint8_t addInt64(int64_t v, uint8_t base, char* buf, int16_t left) {
-    if (v > INT32_MIN && v <= INT32_MAX) return addInt(v, base, buf, left);
-
     if (v < 0 && base == 10) {
         if (!left) return 0;
         *buf = '-';
