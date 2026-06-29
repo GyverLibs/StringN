@@ -27,6 +27,10 @@ uint16_t addChar(char sym, char* buf, int16_t left) {
 }
 
 uint16_t addChar(char sym, int16_t amount, char* buf, int16_t left) {
+    if (amount <= 0) {
+        *buf = 0;
+        return 0;
+    }
     if (left >= 0 && amount > left) amount = left;
     memset(buf, sym, amount);
     buf[amount] = 0;
@@ -34,6 +38,10 @@ uint16_t addChar(char sym, int16_t amount, char* buf, int16_t left) {
 }
 
 uint16_t addPstr(const void* pstr, int16_t len, char* buf, int16_t left) {
+    if (len <= 0) {
+        *buf = 0;
+        return 0;
+    }
 #ifdef SB_HAS_PGM
     if (left >= 0 && len > left) len = left;
     memcpy_P(buf, pstr, len);
@@ -46,20 +54,30 @@ uint16_t addPstr(const void* pstr, int16_t len, char* buf, int16_t left) {
 
 uint16_t addPstr(const void* pstr, char* buf, int16_t left) {
 #ifdef SB_HAS_PGM
-    return addPstr(pstr, strlen_P((PGM_P)pstr), buf, left);
+    size_t len = strlen_P((PGM_P)pstr);
+    if (left >= 0 && len > (uint16_t)left) len = left;
+    else if (len > INT16_MAX) len = INT16_MAX;
+    return addPstr(pstr, (int16_t)len, buf, left);
 #else
     return addStr((const char*)pstr, buf, left);
 #endif
 }
 
 uint16_t addStr(const char* str, int16_t len, char* buf, int16_t left) {
+    if (len <= 0) {
+        *buf = 0;
+        return 0;
+    }
     if (left >= 0 && len > left) len = left;
     memcpy(buf, str, len);
     buf[len] = 0;
     return len;
 }
 uint16_t addStr(const char* str, char* buf, int16_t left) {
-    return addStr(str, strlen(str), buf, left);
+    size_t len = strlen(str);
+    if (left >= 0 && len > (uint16_t)left) len = left;
+    else if (len > INT16_MAX) len = INT16_MAX;
+    return addStr(str, (int16_t)len, buf, left);
 }
 
 uint8_t addUint(uint32_t v, uint8_t base, char* buf, int16_t left) {
