@@ -76,6 +76,17 @@ class StringN {
         return add(val);
     }
 
+    template <uint16_t N>
+    bool operator==(const StringN<N>& other) const {
+        if (_len != other._len) return false;
+        return memcmp(_buf, other._buf, _len) == 0;
+    }
+
+    template <uint16_t N>
+    bool operator!=(const StringN<N>& other) const {
+        return !(*this == other);
+    }
+
     // ============== StringN ==============
     template <uint16_t N>
     StringN& add(const StringN<N>& str) {
