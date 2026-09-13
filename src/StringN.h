@@ -49,14 +49,17 @@ class StringN {
 
     // ============== OPERATOR ==============
 
-    // + val
+    // + val только для временного StringN
     template <typename T>
-    StringN& operator+(T val) {
-        return add(val);
+    StringN&& operator+(T val) && {
+        add(val);
+        return static_cast<StringN&&>(*this);
     }
+
     template <uint16_t N>
-    StringN& operator+(const StringN<N>& other) {
-        return add<N>(other);
+    StringN&& operator+(const StringN<N>& other) && {
+        add(other);
+        return static_cast<StringN&&>(*this);
     }
 
     // += val
@@ -115,6 +118,28 @@ class StringN {
         return *this;
     }
 #endif
+
+    // добавить в начало
+    StringN& prepend(const char* str, uint16_t len) {
+        if (!str || !len) return *this;
+
+        uint16_t addLen = len;
+        if (addLen > maxlen - _len) {
+            addLen = maxlen - _len;
+        }
+
+        if (!addLen) return *this;
+
+        memmove(_buf + addLen, _buf, _len + 1);
+        memcpy(_buf, str, addLen);
+        _len += addLen;
+
+        return *this;
+    }
+
+    StringN& prepend(const char* str) {
+        return prepend(str, strlen(str));
+    }
 
     // ============== BOOL ==============
     StringN& add(bool v) {
@@ -247,6 +272,29 @@ class StringN {
     }
 };
 
+// MARK: helpers
+template <size_t M, uint16_t N>
+StringN<M - 1 + N> operator+(const char (&lhs)[M], const StringN<N>& rhs) {
+    StringN<M - 1 + N> out(lhs);
+    out += rhs;
+    return out;
+}
+
+template <uint16_t N, size_t M>
+StringN<N + M - 1> operator+(const StringN<N>& lhs, const char (&rhs)[M]) {
+    StringN<N + M - 1> out(lhs);
+    out += rhs;
+    return out;
+}
+
+template <uint16_t A, uint16_t B>
+StringN<A + B> operator+(const StringN<A>& lhs, const StringN<B>& rhs) {
+    StringN<A + B> out(lhs);
+    out += rhs;
+    return out;
+}
+
+// MARK: fixed
 using String8 = StringN<8>;
 using String16 = StringN<16>;
 using String24 = StringN<24>;
